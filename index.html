@@ -1,761 +1,452 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý & Lọc Học Viên Hà Vi</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    
-    <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        body { 
-            background-color: #050508; 
-            color: #e0e0e6; 
-            padding: 20px 8px; 
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        h2, h3 { 
-            text-align: center; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            margin-bottom: 5px; 
-        }
-        h2 { 
-            color: #00f0ff; 
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); 
-            font-size: 1.4rem; 
-            margin-bottom: 20px;
-        }
-        h3 { 
-            color: #ff007f; 
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.5); 
-            font-size: 1.1rem; 
-        }
-        
-        /* Bảng điều khiển upload tệp */
-        .upload-panel {
-            background: #0a0a14;
-            border: 1px solid #333;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .upload-desc {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 12px;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .btn-ctrl {
-            padding: 10px 16px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
-            border: none;
-        }
-        .label-upload { background: #00f0ff; color: #000; display: inline-block; }
-        .btn-clear-cache { background: #4a0000; color: #ff3333; border: 1px solid #ff3333; }
-        input[type="file"] { display: none; }
-        #fileNameDisplay { margin-top: 10px; font-size: 0.8rem; color: #ffd700; font-style: italic; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lớp Học Tiếng Anh Hà Vi – Bạch Mai, Hà Nội | Nhận Trẻ Từ 4 Tuổi</title>
+<meta name="description" content="Lớp tiếng Anh Hà Vi, hoạt động từ 2014, tại 237 Chùa Quỳnh, Bạch Mai, Hà Nội. Lộ trình từ 4 tuổi đến Đại học, luyện thi lớp 10, IELTS. Học phí 1.000.000đ/tháng/8 buổi. Kiểm tra năng lực miễn phí.">
+<meta property="og:title" content="Lớp Học Tiếng Anh Hà Vi – Bạch Mai, Hà Nội">
+<meta property="og:description" content="Từ 4 tuổi đến Đại học · Luyện thi lớp 10 · IELTS · Học phí minh bạch 1.000.000đ/tháng">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"EducationalOrganization",
+ "name":"Lớp học tiếng Anh Hà Vi","foundingDate":"2014","telephone":"0972350586",
+ "address":{"@type":"PostalAddress","streetAddress":"Số 237 phố Chùa Quỳnh",
+ "addressLocality":"Phường Bạch Mai","addressRegion":"Hà Nội","addressCountry":"VN"},
+ "priceRange":"1.000.000 VNĐ/tháng","areaServed":"Hà Nội"}
+</script>
+<style>
+/* ============================ HỆ MÀU: tối, ít chói, tương phản cao =========== */
+:root{
+  --ink:#0f172a;        /* chữ chính trên nền sáng  (16.1:1) */
+  --mut:#48566b;        /* chữ phụ trên nền sáng    (7.4:1)  */
+  --line:#e3e8f0;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --navy:#0b1220;       /* nền tối chính            */
+  --navy2:#111c33;      /* nền tối phụ              */
+  --gold:#fbbf24;       /* nhấn vàng ấm (dùng ít)  */
+  --gold-d:#4a3208;     /* chữ trên nền vàng        */
+  --blue:#1d4ed8;       /* link/nhấn xanh dương     */
+  --pri:#2563eb;
+  --r:18px;
+  --sh:0 1px 2px rgba(16,24,40,.04),0 8px 24px -12px rgba(16,24,40,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased;padding-bottom:78px}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.02em;margin:0}
+p{margin:0}
+a{color:var(--blue)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+h2{font-size:clamp(24px,3.4vw,34px)}
+.sec-sub{color:var(--mut);margin-top:10px;max-width:640px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
-        /* Khung Tìm kiếm học viên */
-        .search-panel {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .search-input {
-            flex: 1;
-            background: #0d0d1a;
-            border: 1px solid #333;
-            color: #fff;
-            padding: 12px;
-            font-size: 0.9rem;
-            border-radius: 4px;
-            outline: none;
-        }
-        .search-input:focus { border-color: #ff007f; }
-        .btn-search { background: #ff007f; color: #fff; padding: 0 15px; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; }
+/* ============================ NAV ========================================= */
+.topnav{position:sticky;top:0;z-index:60;background:rgba(9,14,26,.86);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.10)}
+.topnav .wrap{display:flex;align-items:center;gap:18px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:15.5px}
+.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(140deg,#fbbf24,#f59e0b);
+  color:#3a2606;display:grid;place-items:center;font-weight:800;font-size:15px;flex:0 0 auto;
+  box-shadow:0 4px 14px -4px rgba(251,191,36,.6)}
+.navlinks{display:flex;gap:22px;margin-left:auto;font-size:14.5px}
+.navlinks a{color:#cbd5e1;text-decoration:none;font-weight:500}
+.navlinks a:hover{color:#fff}
+.navcta{margin-left:18px;background:#fff;color:#0b1220;padding:9px 16px;border-radius:10px;
+  font-weight:700;font-size:14px;text-decoration:none}
+@media(max-width:860px){.navlinks{display:none}.navcta{margin-left:auto}}
 
-        /* Khung kết quả Tìm kiếm nhanh */
-        .search-result-box {
-            background: #0a0a14;
-            border: 1px solid #ff007f;
-            border-radius: 6px;
-            padding: 15px 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
-            display: none;
-        }
+/* ============================ HERO ======================================== */
+header.hero{position:relative;background:var(--navy);color:#fff;padding:70px 0 96px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35}
+.b1{width:520px;height:520px;background:#1e40af;top:-190px;left:-120px;animation:float 18s ease-in-out infinite}
+.b2{width:420px;height:420px;background:#0e7490;bottom:-180px;right:-100px;animation:float 22s ease-in-out infinite reverse}
+.b3{width:300px;height:300px;background:#7c3aed;top:40%;right:26%;opacity:.18;animation:float 26s ease-in-out infinite}
+.gridlines{position:absolute;inset:0;opacity:.16;
+  background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(circle at 50% 30%,#000 30%,transparent 78%)}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(28px,-22px)}}
+header.hero .wrap{position:relative}
+h1{font-size:clamp(31px,5vw,50px);margin:18px 0 16px;color:#fff;max-width:17ch}
+h1 .hl{background:linear-gradient(100deg,#fbbf24,#fde68a);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.hero-sub{font-size:17.5px;color:#dbe3f0;max-width:56ch}
+.badges{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 28px}
+.badge{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.20);
+  padding:6px 13px;border-radius:999px;font-size:13.5px;color:#e8eefb}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 26px;border-radius:13px;
+  font-weight:700;text-decoration:none;font-size:15.5px;border:1px solid transparent;transition:.2s}
+.btn-main{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#3a2606;
+  box-shadow:0 10px 26px -10px rgba(251,191,36,.75)}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(251,191,36,.85)}
+.btn-ghost{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.30)}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
+.trustline{margin-top:16px;font-size:13.5px;color:#a9b6cd}
+/* thẻ nổi */
+.hero-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;max-width:660px}
+.gcard{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.16);
+  border-radius:15px;padding:16px 18px;backdrop-filter:blur(8px)}
+.gcard b{display:block;font-size:25px;color:#fff;line-height:1.2}
+.gcard span{font-size:13px;color:#b9c6dd}
 
-        /* Khối hiển thị phân nhóm Sheet thành các danh sách lớp */
-        .sheet-section {
-            margin-top: 25px;
-        }
-        .sheet-title {
-            color: #ffd700;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border-left: 4px solid #ffd700;
-            padding-left: 8px;
-            text-transform: uppercase;
-        }
-        .class-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
+/* ============================ THÀNH PHẦN CHUNG =========================== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;box-shadow:var(--sh)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}.hero-cards{grid-template-columns:1fr}}
 
-        /* Panel chính bao bọc từng lớp học - BIẾN THÀNH ACCORDION */
-        .class-panel { 
-            background: #0a0a14; 
-            border: 1px solid #00f0ff; 
-            border-radius: 6px; 
-            padding: 0;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15); 
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-        .class-panel.highlighted {
-            border: 2px solid #ffd700 !important;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
+/* stats */
+.stats{gap:14px}
+.stat{text-align:center;padding:22px 16px}
+.stat b{display:block;font-size:34px;color:var(--ink);letter-spacing:-.03em}
+.stat span{font-size:14px;color:var(--mut)}
 
-        /* Thanh tiêu đề bấm để kích hoạt đóng mở lớp */
-        .class-trigger-header {
-            padding: 15px 10px;
-            cursor: pointer;
-            background: #0e0e1f;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transition: background 0.2s;
-        }
-        .class-trigger-header:hover {
-            background: #14142d;
-        }
-        /* Mũi tên góc phải */
-        .class-trigger-header::after {
-            content: '➔';
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #00f0ff;
-            font-size: 1rem;
-            transition: transform 0.3s ease;
-        }
-        .class-panel.active .class-trigger-header::after {
-            transform: translateY(-50%) rotate(90deg);
-            color: #ff007f;
-        }
+/* features */
+.feat{display:flex;gap:14px;align-items:flex-start;transition:.25s}
+.feat:hover{transform:translateY(-4px);box-shadow:0 18px 40px -18px rgba(16,24,40,.28)}
+.ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:21px;
+  flex:0 0 auto;background:#eef2ff;color:#1e3a8a}
+.ic.amber{background:#fff7ed;color:#9a3412}
+.ic.teal{background:#ecfeff;color:#155e75}
+.ic.green{background:#ecfdf5;color:#065f46}
+.feat h4{font-size:16.5px;margin-bottom:4px}
+.feat p{font-size:14.8px;color:var(--mut)}
 
-        /* Vùng chứa nội dung ẩn/hiện */
-        .class-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            padding: 0 10px;
-        }
-        .class-panel.active .class-content {
-            padding: 10px 10px 15px 10px;
-        }
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 26px 40px}
+.tl li:not(:last-child){border-left:2px solid var(--line);margin-left:13px}
+.tl li:last-child{padding-left:40px}
+.tl li::before{content:"";position:absolute;left:0;top:5px;width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(140deg,#2563eb,#1e40af);border:4px solid #fff;
+  box-shadow:0 0 0 2px #dbeafe}
+.tl b{display:block;font-size:17px}
+.tl span{font-size:15px;color:var(--mut)}
 
-        .class-stats { text-align: center; color: #ffd700; font-size: 0.9rem; margin-bottom: 15px; font-weight: bold; }
+/* steps */
+.step{text-align:left;padding:22px;position:relative;overflow:hidden}
+.step .no{font-size:44px;font-weight:800;color:#eef2ff;line-height:1;margin-bottom:6px}
+.step h4{font-size:16.5px;margin-bottom:4px}
+.step p{font-size:14.8px;color:var(--mut)}
 
-        /* Cấu trúc Danh sách học sinh & Thẻ học viên */
-        .student-list { display: flex; flex-direction: column; gap: 10px; }
-        .student-card { background: #121224; border: 1px solid #333; border-left: 4px solid #00f0ff; border-radius: 4px; padding: 12px 10px; display: flex; flex-direction: column; gap: 10px; }
-        .student-info-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-bottom: 1px solid #222; padding-bottom: 6px; }
-        .student-meta { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-        .student-name { font-weight: bold; font-size: 0.95rem; color: #fff; }
-        .student-phone { font-size: 0.8rem; color: #888; font-family: monospace; }
-        .student-actions-right { display: flex; gap: 5px; }
-        .btn-call { background: #ffd700; color: #000; padding: 8px 12px; font-size: 0.9rem; border: none; border-radius: 4px; cursor: pointer; box-shadow: 0 0 5px #ffd700; }
-        .btn-delete { background: #4a0000; color: #ff3333; border: 1px solid #ff3333; padding: 8px 10px; font-size: 0.9rem; border-radius: 4px; cursor: pointer; }
-        
-        /* Hàng chứa các Select ghi chú */
-        .student-controls-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-        @media (min-width: 350px) { .student-controls-row { grid-template-columns: repeat(4, 1fr); } }
-        .note-select { background: #1a1a3a; color: #00f0ff; border: 1px solid #00f0ff; padding: 8px 2px; font-size: 0.75rem; border-radius: 3px; outline: none; width: 100%; text-align: center; }
-        .note-select.status-sel { color: #ffd700; border-color: #ffd700; }
+/* giá */
+.price{background:linear-gradient(150deg,#0f172a,#1c2b4a);color:#fff;border:0;position:relative;overflow:hidden}
+.price::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;
+  background:#1e40af;filter:blur(90px);opacity:.45;top:-150px;right:-110px}
+.price h2,.price .big,.price ul,.price .hint{position:relative}
+.price .big{font-size:46px;font-weight:800;color:#fde68a;letter-spacing:-.03em;line-height:1.1}
+.price .sub{color:#c7d3e8;font-size:15px}
+.price ul{margin:16px 0 0;padding-left:20px;color:#e5ecfa;font-size:15.2px}
+.price li{margin-bottom:6px}
+.price .hint{color:#a9b6cd;font-size:13.5px;margin-top:14px}
 
-        /* Tiến trình & Trạng thái */
-        .progress-container { width: 100%; background-color: #111; border-radius: 10px; margin: 15px 0; display: none; overflow: hidden; border: 1px solid #333; }
-        .progress-bar { width: 0%; height: 20px; background-color: #00f0ff; text-align: center; line-height: 20px; color: #000; font-weight: bold; font-size: 11px; transition: width 0.1s ease; }
-        .status-msg { text-align: center; font-size: 0.9rem; color: #ffd700; margin-bottom: 15px; line-height: 1.4; }
-        
-        /* Nút copy phân lớp */
-        .btn-copy-class { background: #1a1a1a; color: #fff; border: 1px solid #444; padding: 10px; width: 100%; border-radius: 4px; font-size: 0.8rem; font-weight: bold; cursor: pointer; margin-top: 12px; transition: all 0.2s; }
-        .btn-copy-class:hover { border-color: #00f0ff; color: #00f0ff; }
-        .btn-copy-class.copied { background: rgba(0, 240, 255, 0.2) !important; color: #00f0ff !important; border-color: #00f0ff !important; }
-    </style>
+/* testimonials (nền tối) */
+section.dark{background:var(--navy2);color:#fff}
+section.dark .eyebrow{color:#fbbf24}
+section.dark .sec-sub{color:#b9c6dd}
+.quote{font-size:16.5px;font-style:italic;color:#eaf0fb}
+.qcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);
+  border-radius:var(--r);padding:22px}
+.stars{color:#fbbf24;font-size:15px;letter-spacing:2px;margin-bottom:8px}
+.who{display:flex;align-items:center;gap:11px;margin-top:16px}
+.av{width:40px;height:40px;border-radius:50%;background:linear-gradient(140deg,#3b82f6,#1e40af);
+  display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;flex:0 0 auto}
+.who div b{display:block;font-size:14.5px;color:#fff}
+.who div span{font-size:13px;color:#a9b6cd}
+
+/* form */
+.fcard{background:linear-gradient(160deg,#ffffff,#f8fafc);border:1px solid var(--line)}
+label{display:block;font-size:14px;font-weight:650;margin-bottom:6px;color:var(--ink)}
+input,select{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;
+  font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 4px rgba(37,99,235,.15)}
+button{font-family:inherit;font-size:16px;font-weight:700;padding:15px;border-radius:12px;border:0;
+  background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;cursor:pointer;width:100%;
+  transition:.2s;box-shadow:0 10px 24px -12px rgba(37,99,235,.8)}
+button:hover{transform:translateY(-2px)}
+button.gh{background:#fff;color:#1d4ed8;border:1.5px solid var(--line);box-shadow:none}
+.hint{font-size:13.5px;color:var(--mut)}
+.note{background:#fffbeb;border:1px solid #fde68a;color:#78350f;padding:12px 15px;
+  border-radius:12px;font-size:14px;margin-top:14px}
+
+/* faq */
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:11px}
+summary{font-weight:650;cursor:pointer;font-size:16px;list-style:none;display:flex;
+  justify-content:space-between;gap:12px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;color:var(--pri);font-weight:400;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:12px 0 2px;font-size:15.2px;color:var(--mut)}
+
+/* footer */
+footer{background:#080d18;color:#b6c2d6;padding:44px 0 34px;font-size:14.8px}
+footer a{color:#cbd5e1;text-decoration:none}
+footer a:hover{color:#fff}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:26px}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr}}
+footer h5{margin:0 0 10px;color:#fff;font-size:15px}
+
+/* thanh dưới cùng (mobile) */
+.sticky{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px;z-index:70;
+  background:rgba(9,14,26,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12)}
+.sticky a{flex:1;text-align:center;padding:13px 6px;border-radius:12px;font-weight:700;
+  text-decoration:none;font-size:15px}
+.s-call{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#3a2606}
+.s-zalo{background:#f0fdf4;color:#14532d;border:1px solid #bbf7d0}
+.s-map{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.22)}
+@media(min-width:861px){.sticky{display:none}body{padding-bottom:0}}
+.totop{position:fixed;right:16px;bottom:84px;width:44px;height:44px;border-radius:50%;
+  background:#0f172a;color:#fff;display:grid;place-items:center;z-index:60;border:1px solid rgba(255,255,255,.15);
+  text-decoration:none;font-size:19px}
+@media(min-width:861px){.totop{display:none}}
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
 
-<div class="container">
-    <h2>Hệ Thống Bộ Lọc Học Viên Hà Vi</h2>
+<nav class="topnav">
+  <div class="wrap">
+    <div class="brand"><span class="logo">HV</span> Tiếng Anh Hà Vi</div>
+    <div class="navlinks">
+      <a href="#lichtrinh">Lộ trình</a>
+      <a href="#hocphi">Học phí</a>
+      <a href="#phuhuynh">Phụ huynh</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="navcta" href="#dangky">Đăng ký học thử</a>
+  </div>
+</nav>
 
-    <div class="upload-panel">
-        <div class="upload-desc">Tự động nhận diện Khối lớp (Sheet) và phân nhóm theo Tên lớp cụ thể bên trong bảng Excel</div>
-        <div class="btn-group">
-            <label for="excelFile" class="btn-ctrl label-upload">📂 Chọn tệp dữ liệu Excel</label>
-            <input type="file" id="excelFile" accept=".xlsx, .xls" onchange="startProcessing(this)">
-            <button class="btn-ctrl btn-clear-cache" onclick="clearLocalStorage()">🗑️ Xóa bộ nhớ cache</button>
+<header class="hero">
+  <div class="hero-bg"><div class="gridlines"></div>
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="wrap">
+    <div class="eyebrow" style="color:#fbbf24">Bạch Mai · Hà Nội · Từ năm 2014</div>
+    <h1>Tiếng Anh cho con <span class="hl">từ 4 tuổi đến Đại học</span></h1>
+    <p class="hero-sub">Lộ trình liền mạch, sĩ số nhỏ, bám sát chương trình Bộ GD&amp;ĐT. Luyện thi lớp chọn, lớp 10, Đại học và IELTS — học phí công khai ngay từ đầu.</p>
+    <div class="badges">
+      <span class="badge">🏅 Hơn 10 năm giảng dạy</span>
+      <span class="badge">⭐ Phụ huynh đánh giá 5 sao</span>
+      <span class="badge">👩‍🏫 Chuyên môn IELTS 8.5</span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-main" href="#dangky">🎁 Kiểm tra năng lực MIỄN PHÍ</a>
+      <a class="btn btn-ghost" href="tel:0972350586">📞 097.235.0586</a>
+    </div>
+    <p class="trustline">✓ Không cam kết đầu ra bằng lời · ✓ Không phí ẩn · ✓ Buổi đầu học thử miễn phí</p>
+    <div class="hero-cards">
+      <div class="gcard"><b>4–18</b><span>Độ tuổi nhận học viên</span></div>
+      <div class="gcard"><b>8 buổi</b><span>Mỗi tháng, đều đặn</span></div>
+      <div class="gcard"><b>6–10</b><span>Bạn mỗi lớp, kèm sát</span></div>
+    </div>
+  </div>
+</header>
+
+<section style="padding:44px 0 8px">
+  <div class="wrap grid g3 stats">
+    <div class="card stat reveal"><b>2014</b><span>Năm thành lập</span></div>
+    <div class="card stat reveal"><b>1.000.000đ</b><span>Học phí / tháng</span></div>
+    <div class="card stat reveal"><b>4 kỹ năng</b><span>Nghe – Nói – Đọc – Viết</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Vì sao chọn Hà Vi</div>
+      <h2>Những điều lớp học thực sự làm — không lời hứa suông</h2>
+      <p class="sec-sub">Mỗi lựa chọn dưới đây đều xuất phát từ một việc cụ thể diễn ra trong lớp học mỗi ngày.</p>
+    </div>
+    <div class="grid g2" style="margin-top:26px">
+      <div class="card feat reveal"><div class="ic">👨‍👩‍👧</div><div><h4>Sĩ số nhỏ, kèm sát từng bé</h4><p>Lớp ít học viên nên giáo viên nắm được điểm mạnh, điểm yếu của từng bé và báo cáo định kỳ cho phụ huynh.</p></div></div>
+      <div class="card feat reveal"><div class="ic teal">📚</div><div><h4>Bài giảng tự thiết kế</h4><p>Giáo trình PowerPoint bám sát chương trình Bộ GD&amp;ĐT, kết hợp luyện thi và phát triển kỹ năng thực hành.</p></div></div>
+      <div class="card feat reveal"><div class="ic green">🎓</div><div><h4>Giáo viên được tuyển chọn</h4><p>Đúng chuyên môn, có chứng chỉ và kinh nghiệm giảng dạy thực tế tại lớp.</p></div></div>
+      <div class="card feat reveal"><div class="ic amber">💰</div><div><h4>Học phí minh bạch</h4><p>Công khai từ đầu, có mức hỗ trợ cho gia đình cần được giúp đỡ. Không thu thêm ngoài thoả thuận.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="lichtrinh" style="padding-top:20px">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Lộ trình</div>
+      <h2>Học một chặng đường dài, không phải vài khoá rời rạc</h2>
+    </div>
+    <div class="card reveal" style="margin-top:22px">
+      <ul class="tl">
+        <li><b>Mầm non · 4–6 tuổi</b><span>Làm quen âm thanh và từ vựng qua hình ảnh, trò chơi, âm nhạc — không ép học.</span></li>
+        <li><b>Tiểu học</b><span>Nền tảng ngữ âm, từ vựng, bốn kỹ năng cơ bản; luyện thi lớp chọn và lớp nâng cao.</span></li>
+        <li><b>THCS – THPT</b><span>Ôn thi vào lớp 10 và Đại học; tăng tốc ngữ pháp cùng kỹ năng làm bài.</span></li>
+        <li><b>IELTS &amp; năng khiếu</b><span>Phát triển bốn kỹ năng Nghe – Nói – Đọc – Viết; định hướng nâng cao cho học sinh có năng khiếu.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="reveal"><div class="eyebrow">Bắt đầu</div><h2>Chỉ 3 bước để xếp đúng lớp cho con</h2></div>
+    <div class="grid g3" style="margin-top:22px">
+      <div class="card step reveal"><div class="no">01</div><h4>Đăng ký học thử</h4><p>Điền form hoặc nhắn Zalo, cô gọi lại trong vòng 2 giờ để hẹn lịch.</p></div>
+      <div class="card step reveal"><div class="no">02</div><h4>Kiểm tra năng lực</h4><p>Đánh giá bốn kỹ năng của bé — hoàn toàn miễn phí, không ràng buộc.</p></div>
+      <div class="card step reveal"><div class="no">03</div><h4>Nhận lộ trình riêng</h4><p>Cô gửi lộ trình cá nhân hoá và xếp lớp phù hợp độ tuổi, trình độ.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="hocphi">
+  <div class="wrap">
+    <div class="card price reveal">
+      <div class="eyebrow" style="color:#fbbf24">Học phí</div>
+      <h2 style="color:#fff">1.000.000đ / tháng — 8 buổi</h2>
+      <div class="big" style="margin-top:12px">≈ 125.000đ / buổi</div>
+      <p class="sub" style="margin-top:6px">Công khai trước khi học. Không phí ẩn.</p>
+      <ul>
+        <li>Tài liệu và bài giảng do giáo viên tự thiết kế.</li>
+        <li>Gia đình cần hỗ trợ sẽ được trao đổi mức học phí ưu đãi hơn.</li>
+        <li>Buổi đầu tiên học thử: <strong>miễn phí</strong>.</li>
+      </ul>
+      <p class="hint">Học phí có thể thay đổi theo chương trình (luyện thi, IELTS). Cô sẽ báo cụ thể khi tư vấn.</p>
+    </div>
+  </div>
+</section>
+
+<section id="phuhuynh" class="dark">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Phụ huynh nói gì</div>
+      <h2 style="color:#fff">Lời nhận xét thật từ các gia đình</h2>
+      <p class="sec-sub">Niềm tin của phụ huynh là thước đo duy nhất chúng tôi quan tâm.</p>
+    </div>
+    <div class="grid g2" style="margin-top:24px">
+      <div class="qcard reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Con mình học từ lớp 3, giờ lớp 8 vẫn giữ được nền. Cô giáo báo cáo tình hình học tập rất sát sao."</p>
+        <div class="who"><div class="av">PN</div><div><b>Phụ huynh bé N.</b><span>Học viên lớp 8</span></div></div>
+      </div>
+      <div class="qcard reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Học phí vừa túi tiền, lớp ít bạn nên con được nói nhiều hơn. Gia đình rất yên tâm."</p>
+        <div class="who"><div class="av">PM</div><div><b>Phụ huynh bé M.</b><span>Học viên lớp 4</span></div></div>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:16px;color:#93a3bd">⚠️ Thay hai nhận xét trên bằng lời nhận xét <strong style="color:#e2e8f0">thật</strong> của phụ huynh (xin phép trước khi dùng tên).</p>
+  </div>
+</section>
+
+<section id="dangky">
+  <div class="wrap">
+    <div class="card fcard reveal">
+      <div class="eyebrow">Đăng ký</div>
+      <h2>Nhận lịch kiểm tra năng lực miễn phí</h2>
+      <p class="sec-sub">Điền thông tin, cô gọi lại trong vòng 2 giờ để xếp lịch phù hợp.</p>
+      <form id="f" style="margin-top:20px;display:grid;gap:13px">
+        <div class="grid g2" style="gap:13px">
+          <div><label for="fn">Họ tên phụ huynh</label><input id="fn" required placeholder="Nguyễn Thị A"></div>
+          <div><label for="fp">Số điện thoại / Zalo</label><input id="fp" required placeholder="09xx xxx xxx"></div>
         </div>
-        <div id="fileNameDisplay">Chưa chọn tệp cấu trúc dữ liệu</div>
-    </div>
-
-    <div class="search-panel">
-        <input type="text" id="searchInput" class="search-input" placeholder="Nhập tên học sinh hoặc SĐT cần tìm..." onkeypress="handleSearchKeyPress(event)">
-        <button class="btn-search" onclick="searchStudent()">🔍 Tìm</button>
-    </div>
-
-    <div id="searchResultBox" class="search-result-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
-            <h3 id="resultCount" style="color: #ff007f;">Tìm thấy 0 học viên</h3>
-            <button style="background: #222; color:#fff; border:1px solid #555; padding:3px 8px; font-size:11px; border-radius:3px;" onclick="document.getElementById('searchResultBox').style.display='none'">Đóng X</button>
+        <div class="grid g2" style="gap:13px">
+          <div><label for="fg">Độ tuổi / lớp của bé</label>
+            <select id="fg">
+              <option>4–6 tuổi (mầm non)</option><option>Cấp 1</option><option>Cấp 2</option>
+              <option>Cấp 3 / ôn thi Đại học</option><option>IELTS</option>
+            </select></div>
+          <div><label for="fnote">Ghi chú (không bắt buộc)</label><input id="fnote" placeholder="Buổi nào tiện? Bé đã học tiếng Anh chưa?"></div>
         </div>
-        <div class="student-list" id="resultBody"></div>
+        <div class="grid g2" style="gap:13px;margin-top:4px">
+          <button type="submit">📨 Gửi đăng ký qua Zalo</button>
+          <button type="button" class="gh" onclick="location.href='tel:0972350586'">📞 Gọi ngay 097.235.0586</button>
+        </div>
+        <p class="hint" id="msg" role="status"></p>
+      </form>
+      <div class="note">💡 <strong>Muốn lưu danh sách vào bảng tính?</strong> Tạo một Google Form rồi gán link vào nút — mình có thể làm giúp.</div>
     </div>
+  </div>
+</section>
 
-    <div class="progress-container" id="progressContainer">
-        <div class="progress-bar" id="progressBar">0%</div>
+<section id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="reveal"><div class="eyebrow">FAQ</div><h2>Câu hỏi thường gặp</h2></div>
+    <div style="margin-top:20px">
+      <details open><summary>Bé 4 tuổi chưa biết gì có học được không?</summary><p>Có. Ở độ tuổi này mục tiêu là làm quen âm thanh và từ vựng qua hình ảnh, trò chơi; không đặt nặng ngữ pháp.</p></details>
+      <details><summary>Lớp có bao nhiêu học viên?</summary><p>Sĩ số nhỏ để giáo viên kèm sát từng bé. Số lượng cụ thể cô sẽ trao đổi khi tư vấn.</p></details>
+      <details><summary>Học phí đã gồm tài liệu chưa?</summary><p>Học phí 1.000.000đ/tháng cho 8 buổi. Tài liệu do giáo viên tự thiết kế; mọi khoản phát sinh đều được thông báo trước.</p></details>
+      <details><summary>Có học thử không?</summary><p>Có — buổi đầu tiên miễn phí, kèm buổi kiểm tra năng lực để xếp lớp phù hợp.</p></details>
+      <details><summary>Địa chỉ ở đâu, có chỗ gửi xe không?</summary><p>Số 237 phố Chùa Quỳnh, phường Bạch Mai, Hà Nội. Bấm “Chỉ đường” bên dưới để mở Google Maps.</p></details>
     </div>
-    <div id="statusMessage" class="status-msg">Chưa có dữ liệu học viên. Vui lòng chọn tệp Excel.</div>
+  </div>
+</section>
 
-    <div id="outputContainer"></div>
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <h5>Lớp học tiếng Anh Hà Vi</h5>
+      <div>📍 Số 237 phố Chùa Quỳnh, phường Bạch Mai, Hà Nội</div>
+      <div style="margin-top:6px">📞 <a href="tel:0972350586">097.235.0586</a> · 💬 <a href="https://zalo.me/0972350586" target="_blank" rel="noopener">Zalo</a></div>
+    </div>
+    <div><h5>Chương trình</h5>
+      <div>Mầm non 4–6 tuổi</div><div>Tiểu học · THCS</div><div>Luyện thi lớp 10 · Đại học</div><div>IELTS 4 kỹ năng</div></div>
+    <div><h5>Liên hệ nhanh</h5>
+      <div><a href="#dangky">Đăng ký học thử</a></div>
+      <div><a href="#hocphi">Bảng học phí</a></div>
+      <div><a href="https://www.google.com/maps/search/?api=1&query=237+Ch%C3%B9a+Qu%E1%BB%B3nh+B%E1%BA%A1ch+Mai+H%C3%A0+N%E1%BB%99i" target="_blank" rel="noopener">Chỉ đường</a></div>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:26px;font-size:13.5px;color:#8291a8">
+    Hoạt động từ năm 2014 · Quản lý: ThS. Nguyễn Hoàng Tuấn · Chủ nhiệm chuyên môn: ThS. Lê Thu Hà (IELTS 8.5)
+  </div>
+</footer>
+
+<a class="totop" href="#" aria-label="Lên đầu trang">↑</a>
+
+<div class="sticky">
+  <a class="s-call" href="tel:0972350586">📞 Gọi ngay</a>
+  <a class="s-zalo" href="https://zalo.me/0972350586" target="_blank" rel="noopener">💬 Zalo</a>
+  <a class="s-map" href="https://www.google.com/maps/search/?api=1&query=237+Ch%C3%B9a+Qu%E1%BB%B3nh+B%E1%BA%A1ch+Mai+H%C3%A0+N%E1%BB%99i" target="_blank" rel="noopener">📍 Chỉ đường</a>
 </div>
 
 <script>
-const targetSheets = ["SV", "12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "DH25", "DH26"];
-let finalStoredData = []; 
-
-window.onload = function() {
-    const cachedData = localStorage.getItem('excel_processed_data_v4');
-    const cachedFileName = localStorage.getItem('excel_file_name_v4');
-    const cachedCount = localStorage.getItem('excel_student_count_v4');
-
-    if (cachedData) {
-        finalStoredData = JSON.parse(cachedData);
-        document.getElementById('fileNameDisplay').innerText = `Lịch sử tệp đã lưu: ${cachedFileName || "Ẩn danh"}`;
-        document.getElementById('statusMessage').style.color = "#00ff66";
-        document.getElementById('statusMessage').innerHTML = `✓ Phục hồi thành công danh sách từ trình duyệt.<br>Tổng cộng: <strong>${cachedCount || 0}</strong> học viên.`;
-        renderBlocksFromData(finalStoredData);
-    }
-};
-
-function displayPhone(p) { 
-    if(!p || p === 'Chưa có') return 'Chưa có'; 
-    let c = p.replace(/\s+/g, ''); 
-    if(c.length === 10) return c.substring(0,4)+' '+c.substring(4,7)+' '+c.substring(7); 
-    return p; 
-}
-
-function startProcessing(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    document.getElementById('fileNameDisplay').innerText = `Đang đọc: ${file.name}`;
-    document.getElementById('outputContainer').innerHTML = "";
-    document.getElementById('searchResultBox').style.display = 'none';
-    document.getElementById('statusMessage').innerText = "Đang bóc tách dữ liệu ma trận...";
-    
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    progressContainer.style.display = 'block';
-    progressBar.style.width = '0%';
-    progressBar.innerText = '0%';
-
-    finalStoredData = []; 
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array', raw: false });
-            const validSheetsInFile = workbook.SheetNames.filter(name => targetSheets.includes(name.trim()));
-            
-            if (validSheetsInFile.length === 0) {
-                document.getElementById('statusMessage').style.color = "#ff3333";
-                document.getElementById('statusMessage').innerText = "Không tìm thấy sheet cấu trúc phù hợp trong file Excel.";
-                progressContainer.style.display = 'none';
-                return;
-            }
-
-            processTargetSheets(workbook, validSheetsInFile, file.name);
-        } catch (error) {
-            console.error(error);
-            document.getElementById('statusMessage').style.color = "#ff3333";
-            document.getElementById('statusMessage').innerText = "Xảy ra lỗi khi đọc giải mã tệp Excel.";
-            progressContainer.style.display = 'none';
-        }
-    };
-    reader.readAsArrayBuffer(file);
-}
-
-function processTargetSheets(workbook, sheetsToProcess, fileName) {
-    const totalSheets = sheetsToProcess.length;
-    let currentIdx = 0;
-    let totalStudentsCount = 0;
-    let globalStudentUid = 1;
-
-    const progressBar = document.getElementById('progressBar');
-    const statusMsg = document.getElementById('statusMessage');
-
-    function parseNext() {
-        if (currentIdx >= totalSheets) {
-            progressBar.style.width = '100%';
-            progressBar.innerText = '100% Hoàn thành';
-            statusMsg.style.color = "#00ff66";
-            statusMsg.innerHTML = `✓ Hoàn tất! Dữ liệu đã chia rành mạch theo các cấu trúc ô lớp nhỏ.<br>Tổng cộng thu được <strong>${totalStudentsCount}</strong> học viên.`;
-            
-            try {
-                localStorage.setItem('excel_processed_data_v4', JSON.stringify(finalStoredData));
-                localStorage.setItem('excel_file_name_v4', fileName);
-                localStorage.setItem('excel_student_count_v4', totalStudentsCount);
-            } catch(e) {
-                console.log("Local Storage đầy dữ liệu!", e);
-            }
-
-            renderBlocksFromData(finalStoredData);
-            return;
-        }
-
-        const sheetName = sheetsToProcess[currentIdx];
-        let percent = Math.round((currentIdx / totalSheets) * 100);
-        progressBar.style.width = percent + '%';
-        progressBar.innerText = percent + '%';
-
-        const sheet = workbook.Sheets[sheetName];
-        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false });
-
-        if (rows.length > 0) {
-            const colAIndex = 0;  
-            const colBIndex = 1;  
-            const colPIndex = 16; 
-
-            let currentClassName = "";
-            let currentUpperHeader = "";
-            let currentClassStudents = [];
-            let actualClassTitleForSearch = ""; 
-
-            let currentSheetBlock = {
-                sheetName: sheetName,
-                cards: []
-            };
-
-            rows.forEach((row, rowIndex) => {
-                if (!row) return;
-
-                let cellA = row[colAIndex] ? row[colAIndex].toString().trim() : "";
-                let cellB = row[colBIndex] ? row[colBIndex].toString().trim() : "";
-                let cellP = row[colPIndex] ? row[colPIndex].toString().trim() : "";
-
-                let cellB_lower = cellB.toLowerCase();
-                let cleanPhoneCheck = cellP.replace(/[^0-9]/g, "");
-
-                if (cellB && cleanPhoneCheck.length < 9 && 
-                    (cellB.includes("-") || cellB.includes("/") || cellA.match(/^(I|II|III|IV|V|VI|VII|VIII|IX|X)\b/) || cellB_lower.includes("kid") || cellB_lower.includes("smile") || cellB_lower.includes("happy") || cellB_lower.includes("athena") || cellB_lower.includes("win"))) {
-                    
-                    if (currentClassStudents.length > 0) {
-                        totalStudentsCount += currentClassStudents.length;
-                        currentSheetBlock.cards.push({
-                            upperTitle: currentUpperHeader,
-                            className: currentClassName,
-                            studentsList: currentClassStudents,
-                            realTitle: actualClassTitleForSearch || currentClassName
-                        });
-                        currentClassStudents = [];
-                    }
-                    
-                    let upperInfo = "";
-                    actualClassTitleForSearch = ""; 
-
-                    if (rowIndex > 0) {
-                        let prevRow = rows[rowIndex - 1];
-                        if (prevRow) {
-                            let pB = prevRow[colBIndex] ? prevRow[colBIndex].toString().trim() : "";
-                            let pA = prevRow[colAIndex] ? prevRow[colAIndex].toString().trim() : "";
-                            if (pB && !pB.toLowerCase().includes("tên học sinh") && !pB.toLowerCase().includes("họ và tên")) {
-                                upperInfo = pB;
-                                actualClassTitleForSearch = pB; 
-                            } else if (pA) {
-                                upperInfo = pA;
-                                actualClassTitleForSearch = pA;
-                            }
-                        }
-                    }
-
-                    currentClassName = cellB;
-                    currentUpperHeader = upperInfo;
-                    return;
-                }
-
-                if (cellB === "" || cellB_lower === "tên học sinh" || cellB_lower === "tên hs" || cellB_lower === "họ và tên") {
-                    return;
-                }
-
-                let cleanPhone = cellP.replace(/[^0-9]/g, "");
-                if (cleanPhone.length === 9 && !cleanPhone.startsWith("0")) cleanPhone = "0" + cleanPhone;
-
-                if (cellB && !/^\d+$/.test(cellB) && (cleanPhone.length >= 9 || cellP.toLowerCase() === "chưa có" || cellP === "")) {
-                    if (!currentClassName) {
-                        currentClassName = `Chung - Khối ${sheetName}`;
-                        actualClassTitleForSearch = `Chung - Khối ${sheetName}`;
-                    }
-                    currentClassStudents.push({
-                        uid: globalStudentUid++,
-                        name: cellB,
-                        phone: cleanPhone || "Chưa có",
-                        grammar: '', communication: '', attitude: '', progress: ''
-                    });
-                }
-            });
-
-            if (currentClassStudents.length > 0) {
-                totalStudentsCount += currentClassStudents.length;
-                currentSheetBlock.cards.push({
-                    upperTitle: currentUpperHeader,
-                    className: currentClassName,
-                    studentsList: currentClassStudents,
-                    realTitle: actualClassTitleForSearch || currentClassName
-                });
-            }
-
-            if (currentSheetBlock.cards.length > 0) {
-                finalStoredData.push(currentSheetBlock);
-            }
-        }
-
-        currentIdx++;
-        setTimeout(parseNext, 15);
-    }
-
-    parseNext();
-}
-
-/* THAY ĐỔI LỚN TẠI ĐÂY: Render các lớp thành tiêu đề Accordion gọn gàng */
-function renderBlocksFromData(dataBlocks) {
-    const mainOutputContainer = document.getElementById('outputContainer');
-    mainOutputContainer.innerHTML = ""; 
-
-    dataBlocks.forEach((block, bIdx) => {
-        let sheetBlock = document.createElement('div');
-        sheetBlock.className = 'sheet-section';
-        sheetBlock.innerHTML = `<div class="sheet-title">KHỐI LỚP (SHEET): ${block.sheetName}</div>`;
-        
-        let cardsGrid = document.createElement('div');
-        cardsGrid.className = 'class-grid';
-        sheetBlock.appendChild(cardsGrid);
-
-        block.cards.forEach((cardData, cIdx) => {
-            let classCardId = `panel-box-${bIdx}-${cIdx}`;
-            
-            let card = document.createElement('div');
-            card.className = 'class-panel';
-            card.id = classCardId;
-            card.setAttribute('data-classname', cardData.realTitle);
-
-            // Phần tiêu đề bọc sự kiện Click đóng/mở Accordion công nghệ
-            let triggerHeader = document.createElement('div');
-            triggerHeader.className = 'class-trigger-header';
-            
-            let titleHtml = cardData.upperTitle ? `<h2>${cardData.upperTitle}</h2>` : "";
-            titleHtml += `<h3>LỚP: ${cardData.className} (Sĩ số: ${cardData.studentsList.length})</h3>`;
-            triggerHeader.innerHTML = titleHtml;
-
-            // Vùng nội dung danh sách học sinh bị ẩn đi mặc định
-            let contentDiv = document.createElement('div');
-            contentDiv.className = 'class-content';
-
-            let statsText = `<div class="class-stats" style="margin-top:10px;">Sĩ số hiện tại: ${cardData.studentsList.length}</div>`;
-
-            let listContainer = document.createElement('div');
-            listContainer.className = 'student-list';
-
-            let textForCopy = []; 
-
-            cardData.studentsList.forEach((student, sIdx) => {
-                textForCopy.push(`${sIdx + 1}. ${student.name}\tSĐT: ${displayPhone(student.phone)}`);
-                
-                let studentCard = document.createElement('div');
-                studentCard.className = 'student-card';
-                studentCard.id = `std-card-dom-${student.uid}`;
-                
-                studentCard.innerHTML = `
-                    <div class="student-info-row">
-                        <div class="student-meta">
-                            <span class="student-name">${sIdx + 1}. ${student.name}</span>
-                            <span class="student-phone">SĐT: ${displayPhone(student.phone)}</span>
-                        </div>
-                        <div class="student-actions-right">
-                            <button class="btn-call" onclick="callStudent('${student.phone}')">📞</button>
-                            <button class="btn-delete" onclick="deleteStudentInline(${student.uid}, '${student.name}', '${classCardId}')">🗑️</button>
-                        </div>
-                    </div>
-                    <div class="student-controls-row">
-                        <select class="note-select" onchange="updateStudentField(${student.uid}, 'grammar', this.value)">
-                            <option value="">-- Ngữ pháp --</option>
-                            <option value="Tốt" ${student.grammar==='Tốt'?'selected':''}>Ngữ pháp: Tốt</option>
-                            <option value="Khá" ${student.grammar==='Khá'?'selected':''}>Ngữ pháp: Khá</option>
-                            <option value="Trung bình" ${student.grammar==='Trung bình'?'selected':''}>Ngữ pháp: TB</option>
-                            <option value="Yếu" ${student.grammar==='Yếu'?'selected':''}>Ngữ pháp: Yếu</option>
-                        </select>
-                        <select class="note-select" onchange="updateStudentField(${student.uid}, 'communication', this.value)">
-                            <option value="">-- Giao tiếp --</option>
-                            <option value="Tốt" ${student.communication==='Tốt'?'selected':''}>Giao tiếp: Tốt</option>
-                            <option value="Khá" ${student.communication==='Khá'?'selected':''}>Giao tiếp: Khá</option>
-                            <option value="Trung bình" ${student.communication==='Trung bình'?'selected':''}>Giao tiếp: TB</option>
-                            <option value="Yếu" ${student.communication==='Yếu'?'selected':''}>Giao tiếp: Yếu</option>
-                        </select>
-                        <select class="note-select" onchange="updateStudentField(${student.uid}, 'attitude', this.value)">
-                            <option value="">-- Ý thức --</option>
-                            <option value="Tốt" ${student.attitude==='Tốt'?'selected':''}>Ý thức: Tốt</option>
-                            <option value="Khá" ${student.attitude==='Khá'?'selected':''}>Ý thức: Khá</option>
-                            <option value="Trung bình" ${student.attitude==='Trung bình'?'selected':''}>Ý thức: TB</option>
-                            <option value="Chưa tốt" ${student.attitude==='Chưa tốt'?'selected':''}>Ý thức: Chưa tốt</option>
-                        </select>
-                        <select class="note-select status-sel" onchange="updateStudentField(${student.uid}, 'progress', this.value)">
-                            <option value="">-- Tình trạng --</option>
-                            <option value="Tiến bộ" ${student.progress==='Tiến bộ'?'selected':''}>📈 Tiến bộ</option>
-                            <option value="Duy trì" ${student.progress==='Duy trì'?'selected':''}>➡️ Duy trì</option>
-                            <option value="Cần cố gắng" ${student.progress==='Cần cố gắng'?'selected':''}>⚠️ Cố gắng</option>
-                            <option value="Kém đi" ${student.progress==='Kém đi'?'selected':''}>📉 Kém đi</option>
-                        </select>
-                    </div>
-                `;
-                listContainer.appendChild(studentCard);
-            });
-
-            let btnCopy = document.createElement('button');
-            btnCopy.className = 'btn-copy-class';
-            btnCopy.innerText = '📋 Copy Tên + SĐT Toàn Lớp';
-            btnCopy.onclick = function(e) {
-                e.stopPropagation(); // Ngăn sự kiện đóng mở oằn tà là vằn khi bấm copy
-                navigator.clipboard.writeText(textForCopy.join('\n')).then(() => {
-                    btnCopy.innerText = '✓ Đã Copy Lớp Thành Công!';
-                    btnCopy.classList.add('copied');
-                    setTimeout(() => {
-                        btnCopy.innerText = '📋 Copy Tên + SĐT Toàn Lớp';
-                        btnCopy.classList.remove('copied');
-                    }, 1500);
-                });
-            };
-
-            // Logic toggle chiều cao mượt bằng scrollHeight
-            triggerHeader.onclick = function() {
-                const isActive = card.classList.toggle('active');
-                if (isActive) {
-                    contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-                } else {
-                    contentDiv.style.maxHeight = null;
-                }
-            };
-
-            contentDiv.innerHTML = statsText;
-            contentDiv.appendChild(listContainer);
-            contentDiv.appendChild(btnCopy);
-            
-            card.appendChild(triggerHeader);
-            card.appendChild(contentDiv);
-            cardsGrid.appendChild(card);
-        });
-
-        mainOutputContainer.appendChild(sheetBlock);
+/* hiện dần khi cuộn */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){e.classList.add('in')}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
     });
-}
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){ io.observe(e); });
+})();
 
-function updateStudentField(uid, field, value) {
-    let found = false;
-    for (let block of finalStoredData) {
-        for (let card of block.cards) {
-            let student = card.studentsList.find(s => s.uid === uid);
-            if (student) {
-                student[field] = value;
-                found = true;
-                break;
-            }
-        }
-        if (found) break;
-    }
-    localStorage.setItem('excel_processed_data_v4', JSON.stringify(finalStoredData));
-}
-
-function deleteStudentInline(uid, name, cardId) {
-    if (confirm(`Bạn có chắc muốn XÓA học sinh ${name}?`)) {
-        let found = false;
-        let targetCard = null;
-        for (let block of finalStoredData) {
-            for (let card of block.cards) {
-                let initialLength = card.studentsList.length;
-                card.studentsList = card.studentsList.filter(s => s.uid !== uid);
-                if (card.studentsList.length !== initialLength) {
-                    found = true;
-                    targetCard = card;
-                    const panelDom = document.getElementById(cardId);
-                    if (panelDom) {
-                        const statsDom = panelDom.querySelector('.class-stats');
-                        if (statsDom) statsDom.innerText = `Sĩ số hiện tại: ${card.studentsList.length}`;
-                        const h3Dom = panelDom.querySelector('.class-trigger-header h3');
-                        if (h3Dom) h3Dom.innerText = `LỚP: ${card.className} (Sĩ số: ${card.studentsList.length})`;
-                    }
-                    break;
-                }
-            }
-            if (found) break;
-        }
-        
-        const cardDom = document.getElementById(`std-card-dom-${uid}`);
-        if (cardDom) cardDom.remove();
-        
-        // Tính toán lại độ cao của Accordion content sau khi xóa bớt phần tử
-        const panelDom = document.getElementById(cardId);
-        if (panelDom && panelDom.classList.contains('active')) {
-            const contentDiv = panelDom.querySelector('.class-content');
-            if (contentDiv) contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-        }
-        
-        localStorage.setItem('excel_processed_data_v4', JSON.stringify(finalStoredData));
-        
-        let currentTotal = parseInt(localStorage.getItem('excel_student_count_v4') || 0);
-        if (currentTotal > 0) {
-            currentTotal--;
-            localStorage.setItem('excel_student_count_v4', currentTotal);
-            document.getElementById('statusMessage').innerHTML = `✓ Cập nhật trạng thái sau khi xóa.<br>Tổng cộng còn lại: <strong>${currentTotal}</strong> học viên.`;
-        }
-    }
-}
-
-function callStudent(phone) { 
-    if(!phone || phone === 'Chưa có') { 
-        alert('Học viên chưa cập nhật số điện thoại!'); 
-        return; 
-    } 
-    window.location.href = 'tel:' + phone.replace(/\s+/g, ''); 
-}
-
-function searchStudent() {
-    const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-    const resultBox = document.getElementById('searchResultBox');
-    const resultBody = document.getElementById('resultBody');
-    const resultCount = document.getElementById('resultCount');
-    
-    resultBody.innerHTML = "";
-    resultBox.style.display = 'none';
-    
-    const allClassPanels = document.querySelectorAll('.class-panel');
-    allClassPanels.forEach(p => {
-        p.classList.remove('highlighted', 'active');
-        const contentDiv = p.querySelector('.class-content');
-        if (contentDiv) contentDiv.style.maxHeight = null;
-    });
-
-    if (keyword === "") return;
-
-    let absoluteKeyword = keyword.replace(/\s/g, ""); 
-    let firstMatchCardDom = null;
-    let matchCount = 0;
-
-    finalStoredData.forEach((block, bIdx) => {
-        block.cards.forEach((card, cIdx) => {
-            let isCardMatched = false;
-            
-            card.studentsList.forEach((student, sIdx) => {
-                const textToSearch = (student.name + " " + student.phone).toLowerCase();
-                const textNoSpace = textToSearch.replace(/\s/g, "");
-
-                if (textToSearch.includes(keyword) || textNoSpace.includes(absoluteKeyword)) {
-                    matchCount++;
-                    isCardMatched = true;
-
-                    let resCard = document.createElement('div');
-                    resCard.className = 'student-card';
-                    resCard.innerHTML = `
-                        <div class="student-info-row">
-                            <div class="student-meta">
-                                <span class="student-name">${student.name} <span style="color:#00f0ff; font-size:0.75rem;">[Lớp: ${card.className}]</span></span>
-                                <span class="student-phone">SĐT: ${displayPhone(student.phone)}</span>
-                            </div>
-                            <div class="student-actions-right">
-                                <button class="btn-call" onclick="callStudent('${student.phone}')">📞</button>
-                            </div>
-                        </div>
-                    `;
-                    resultBody.appendChild(resCard);
-                }
-            });
-
-            if (isCardMatched) {
-                let targetCardDom = document.getElementById(`panel-box-${bIdx}-${cIdx}`);
-                if (targetCardDom) {
-                    targetCardDom.classList.add('highlighted', 'active');
-                    // Khi tìm thấy, tự mở bung luôn panel accordion đó ra để hiển thị học viên
-                    const contentDiv = targetCardDom.querySelector('.class-content');
-                    if (contentDiv) contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-                    
-                    if (!firstMatchCardDom) firstMatchCardDom = targetCardDom;
-                }
-            }
-        });
-    });
-
-    if (matchCount > 0) {
-        resultCount.innerText = `Tìm thấy ${matchCount} học viên trùng khớp:`;
-        resultBox.style.display = 'block';
-        
-        if (firstMatchCardDom) {
-            setTimeout(() => {
-                firstMatchCardDom.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 120);
-        }
-    } else {
-        alert("Không tìm thấy dữ liệu học sinh nào trùng khớp với thông tin cần tìm.");
-    }
-}
-
-function handleSearchKeyPress(event) {
-    if (event.key === 'Enter') searchStudent();
-}
-
-function clearLocalStorage() {
-    if (confirm("Bạn có chắc chắn muốn xóa dữ liệu lịch sử cache khỏi trình duyệt không?")) {
-        localStorage.removeItem('excel_processed_data_v4');
-        localStorage.removeItem('excel_file_name_v4');
-        localStorage.removeItem('excel_student_count_v4');
-        
-        document.getElementById('fileNameDisplay').innerText = "Chưa chọn tệp nào";
-        document.getElementById('statusMessage').style.color = "#ffd700";
-        document.getElementById('statusMessage').innerText = "Chưa có dữ liệu học viên. Vui lòng chọn tệp Excel.";
-        document.getElementById('outputContainer').innerHTML = "";
-        document.getElementById('searchResultBox').style.display = 'none';
-        document.getElementById('excelFile').value = "";
-        document.getElementById('progressContainer').style.display = 'none';
-        
-        alert("Đã giải phóng bộ nhớ!");
-    }
-}
+/* form → Zalo */
+document.getElementById('f').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var n = document.getElementById('fn').value.trim();
+  var p = document.getElementById('fp').value.trim();
+  var g = document.getElementById('fg').value;
+  var note = document.getElementById('fnote').value.trim();
+  if (!n || !p) { document.getElementById('msg').textContent = 'Vui lòng nhập họ tên và số điện thoại.'; return; }
+  var text = '[ĐĂNG KÝ HỌC THỬ - HÀ VI]\nPhụ huynh: ' + n + '\nSĐT/Zalo: ' + p + '\nBé: ' + g + (note ? '\nGhi chú: ' + note : '');
+  var copied = false;
+  try { navigator.clipboard.writeText(text).then(function(){copied=true;}).catch(function(){}); } catch (err) {}
+  document.getElementById('msg').innerHTML =
+    '✅ Thông tin <strong>' + n + ' – ' + p + ' – ' + g + '</strong> đã sẵn sàng. Đang mở Zalo… '
+    + (copied ? 'bạn chỉ cần <strong>dán (Ctrl+V)</strong> và gửi.' : 'bạn nhắn lại nội dung trên giúp cô nhé.')
+    + '<br><span style="color:#64748b">Zalo không mở được? Gọi 097.235.0586</span>';
+  setTimeout(function(){ window.open('https://zalo.me/0972350586', '_blank'); }, 700);
+});
 </script>
-
 </body>
 </html>
